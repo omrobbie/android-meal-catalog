@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.omrobbie.mealcatalog.network.response.meals.MealsItem
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.meal_item.view.*
 
 class MealAdapter(val context: Context, val meals: List<MealsItem?>) : RecyclerView.Adapter<MealAdapter.ViewHolder>() {
@@ -24,6 +25,10 @@ class MealAdapter(val context: Context, val meals: List<MealsItem?>) : RecyclerV
         val meal = meals[position]
 
         holder.itemView.tv_item_name.text = meal?.strMeal
+
+        Picasso.get()
+                .load(meal?.strMealThumb)
+                .into(holder.itemView.iv_item_image)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
