@@ -10,5 +10,5 @@ class InitRetrofit {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    private fun instance(): ApiService = init().create(ApiService::class.java)
+    fun instance(): ApiService = init().create(ApiService::class.java)
 }
