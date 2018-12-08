@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.omrobbie.mealcatalog.network.InitRetrofit
+import com.omrobbie.mealcatalog.network.response.meals.MealsItem
 import com.omrobbie.mealcatalog.network.response.meals.Response
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -16,15 +17,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initListofMeal()
+        //initListofMeal()
         requestDataHome()
     }
 
-    private fun initListofMeal() {
-        val adapter = MealAdapter(this)
+    private fun initListofMeal(dataMeals: List<MealsItem?>) {
+        dataMeals.let {
+            val adapter = MealAdapter(this, it)
 
-        rv_list.adapter = adapter
-        rv_list.layoutManager = LinearLayoutManager(this)
+            rv_list.adapter = adapter
+            rv_list.layoutManager = LinearLayoutManager(this)
+        }
     }
 
     private fun requestDataHome() {
@@ -38,6 +41,12 @@ class MainActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                         if (response.isSuccessful) {
                             Log.d("xxx Success:", response.body().toString())
+
+                            val dataMeals = response.body()?.meals
+
+                            dataMeals?.let {
+                                initListofMeal(it)
+                            }
                         }
                     }
                 })
